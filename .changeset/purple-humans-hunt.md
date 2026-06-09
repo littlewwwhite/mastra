@@ -8,12 +8,12 @@ Added role-based semantic font tokens so consumers can swap fonts in one declara
 
 ```css
 :root {
-  --font-display: 'Mona Sans', system-ui, sans-serif;
-  --font-body: 'Mona Sans', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'Commit Mono', ui-monospace, monospace;
 }
 ```
 
-**Removed legacy raw font-name aliases** — `--geist-mono`, `--font-inter`, and the branded display-font alias are no longer exported. Use `--font-mono`, `--font-body`, and `--font-display` directly.
+**Backward-compat for existing consumers** — the legacy raw font-name vars `--geist-mono`, `--font-inter`, `--tasa-explorer` continue to resolve via aliases to the semantic tokens, so any `font-family: var(--geist-mono)` keeps working without code changes. New code should reference `var(--font-mono)` directly.
 
 The package no longer ships font files — defaults are system fonts. Bring your own fonts via `@font-face` in your app and override the tokens above.
