@@ -1,5 +1,14 @@
 # @mastra/pg
 
+## 1.13.0-alpha.1
+
+### Patch Changes
+
+- Make atomic db updates better ([#16796](https://github.com/mastra-ai/mastra/pull/16796))
+
+- Updated dependencies [[`493a328`](https://github.com/mastra-ai/mastra/commit/493a328f4346a1deeb9f1e2e44c8f2a3a4d7591b), [`63e3fe1`](https://github.com/mastra-ai/mastra/commit/63e3fe13cc1ea96f91d7c68aea92f400faf9e4da)]:
+  - @mastra/core@1.42.0-alpha.4
+
 ## 1.13.0-alpha.0
 
 ### Minor Changes

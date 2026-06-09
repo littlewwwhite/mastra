@@ -1,5 +1,27 @@
 # @mastra/core
 
+## 1.42.0-alpha.4
+
+### Minor Changes
+
+- Add workspace registry cleanup and shutdown destruction. ([#17661](https://github.com/mastra-ai/mastra/pull/17661))
+
+  Mastra now exposes `removeWorkspace(id, { destroy })` for removing runtime workspaces from the registry. When `destroy` is true, the workspace is destroyed before removal and remains registered if destruction fails.
+
+  `mastra.shutdown()` now destroys registered workspaces before closing storage and unregisters only the workspaces that clean up successfully. Workspace tool execution also updates `lastAccessedAt`, so runtime activity is tracked beyond search operations.
+
+  ```ts
+  await mastra.removeWorkspace('workspace-123', { destroy: true }); // destroys, then unregisters
+  await mastra.removeWorkspace('workspace-456'); // unregisters only; caller owns destroy
+  await mastra.shutdown(); // destroys registered workspaces, then closes storage
+  ```
+
+### Patch Changes
+
+- - Use evented-workflow engine in the internal agentic loop. ([#16796](https://github.com/mastra-ai/mastra/pull/16796))
+  - Fix nested workflow resume with resumeLabel in evented-workflow engine.
+  - Default to an in-memory store when no `storage` is configured on `Mastra`, and warn that it is not durable and a persistent storage adapter should be used in production.
+
 ## 1.42.0-alpha.3
 
 ### Minor Changes

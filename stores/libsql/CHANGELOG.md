@@ -1,5 +1,18 @@
 # @mastra/libsql
 
+## 1.12.2-alpha.0
+
+### Patch Changes
+
+- Fixed concurrent writes silently disappearing when using LibSQL with a local (`file:`) database. ([#16796](https://github.com/mastra-ai/mastra/pull/16796))
+
+  LibSQL backs a local database with a single connection. When one operation held an interactive write transaction (for example, persisting workflow snapshots) and another operation wrote at the same time (for example, creating a dataset experiment), the second write could be swept into the open transaction and rolled back — so it appeared to succeed but never persisted. This surfaced as concurrent agent/workflow runs losing unrelated records.
+
+  Writes on a LibSQL client are now serialized, so a write issued during an in-flight transaction no longer interleaves with it.
+
+- Updated dependencies [[`493a328`](https://github.com/mastra-ai/mastra/commit/493a328f4346a1deeb9f1e2e44c8f2a3a4d7591b), [`63e3fe1`](https://github.com/mastra-ai/mastra/commit/63e3fe13cc1ea96f91d7c68aea92f400faf9e4da)]:
+  - @mastra/core@1.42.0-alpha.4
+
 ## 1.12.1
 
 ### Patch Changes

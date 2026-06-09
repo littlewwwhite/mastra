@@ -1,5 +1,52 @@
 # @mastra/playground-ui
 
+## 33.0.0-alpha.4
+
+### Minor Changes
+
+- Added a new `@mastra/playground-ui/theme.css` export and made the Mastra brand green a built-in color. ([#17668](https://github.com/mastra-ai/mastra/pull/17668))
+
+  **New theme.css export**
+
+  You can now import the design tokens as raw CSS:
+
+  ```css
+  @import 'tailwindcss';
+  @import '@mastra/playground-ui/theme.css'; /* design tokens */
+  @import '@mastra/playground-ui/style.css'; /* component styles */
+  ```
+
+  Before, apps had to copy every token into their own `@theme` block so Tailwind would generate the matching utility classes (like `bg-surface1` or `text-neutral4`). Now your app's Tailwind reads the tokens from this file directly. This is the same pattern as `tailwindcss/theme.css`, and it keeps the tokens defined in one place.
+
+  **Brand green and chart colors**
+
+  The `green-*` classes now use the Mastra brand green (in both light and dark mode) instead of Tailwind's default green. New `--chart-1` through `--chart-5` colors are also available for charts. If you used the stock Tailwind green before, the new green looks a bit more vivid.
+
+- Added role-based semantic font tokens so consumers can swap fonts in one declaration. Components now reference `--font-display` (headlines, brand) and `--font-body` (UI, paragraphs) instead of type-based `--font-sans` / `--font-serif`. Existing utilities keep working through backward-compat aliases (`--font-sans` → `--font-body`, `--font-serif` → `--font-display`). ([#16265](https://github.com/mastra-ai/mastra/pull/16265))
+
+  **Override fonts in your app**
+
+  ```css
+  :root {
+    --font-display: 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Commit Mono', ui-monospace, monospace;
+  }
+  ```
+
+  **Backward-compat for existing consumers** — the legacy raw font-name vars `--geist-mono`, `--font-inter`, `--tasa-explorer` continue to resolve via aliases to the semantic tokens, so any `font-family: var(--geist-mono)` keeps working without code changes. New code should reference `var(--font-mono)` directly.
+
+  The package no longer ships font files — defaults are system fonts. Bring your own fonts via `@font-face` in your app and override the tokens above.
+
+### Patch Changes
+
+- Fixed the Studio Metrics **Latency** card drilldown, which was a silent no-op on all three tabs (Agents, Workflows, Tools). The view-level click guard and the container-level navigation handler both read a `rawTimestamp` field that the hook never produces; the only timestamp on a `LatencyPoint` is `tsMs`. Clicking a chart point now correctly navigates to the Traces page filtered to the 1-hour bucket and the entity type of the active tab. ([#17704](https://github.com/mastra-ai/mastra/pull/17704))
+
+- Updated dependencies [[`3abfa15`](https://github.com/mastra-ai/mastra/commit/3abfa158881ad3b187f69392cc64fe3a5aeed5c3), [`493a328`](https://github.com/mastra-ai/mastra/commit/493a328f4346a1deeb9f1e2e44c8f2a3a4d7591b), [`36df947`](https://github.com/mastra-ai/mastra/commit/36df947de2603131fd24652db61af7799a790827), [`63e3fe1`](https://github.com/mastra-ai/mastra/commit/63e3fe13cc1ea96f91d7c68aea92f400faf9e4da)]:
+  - @mastra/react@0.6.0-alpha.4
+  - @mastra/core@1.42.0-alpha.4
+  - @mastra/client-js@1.24.0-alpha.4
+
 ## 33.0.0-alpha.3
 
 ### Patch Changes
